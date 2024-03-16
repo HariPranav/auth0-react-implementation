@@ -1,7 +1,9 @@
 # To run the implementaion follow : https://auth0.com/docs/quickstart/spa/react/interactive
 
 $ cd repo
+
 $ npm install npm install @auth0/auth0-react
+
 $ npm start 
 
 
