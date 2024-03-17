@@ -186,7 +186,7 @@ const Home = () => {
       <div className="m-2 d-flex flex-column align-items-center justify-content-center">
         {analyzeData && (
           <div className="lead">
-            Products that can be made:
+            Products that can be made
           </div>
         )}
         <div className="d-flex justify-content-center flex-wrap gap-3">
@@ -213,6 +213,27 @@ const Home = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="d-flex flex-column align-items-center">
+          <div className="lead">
+          {analyzeData &&
+            (
+              <>
+                Locations to recycle
+              </>
+            )
+          }
+          </div>
+          <div className="d-flex justify-content-center flex-wrap gap-3">
+            {analyzeData && analyzeData.locations.map((location, index) => (
+                <div className="card" style={{width: "30rem", margin: "10px"}} key={index}>
+                  <div className="card-body">
+                    <h5 className="card-title">{location.name}</h5>
+                    <a href={location.map} target="_blank" rel="noopener noreferrer">Maps Link</a>
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
