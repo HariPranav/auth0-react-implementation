@@ -107,6 +107,7 @@ const Hero = () => {
     setIsUploaded(false);
     setUploadResponse(null);
     setAnalyzeData(null);
+    setImage(null);
   };
 
   return (
@@ -124,9 +125,26 @@ const Hero = () => {
           <button onClick={handleReset}>Upload Another</button>
           {analyzeData && (
             <div>
-              <pre>{JSON.stringify(analyzeData, null, 2)}</pre>
+              Products that can be made:
             </div>
           )}
+          {analyzeData && analyzeData.products.map((product, index) => (
+            <div key={index}>
+              <h2>{product.name}</h2>
+              <h3>Required Items:</h3>
+              <ul>
+                {product.items.map((item, itemIndex) => (
+                  <li key={itemIndex}>{item}</li>
+                ))}
+              </ul>
+              <h3>Steps:</h3>
+              <ol>
+                {product.steps.map((step, stepIndex) => (
+                  <li key={stepIndex}>{step}</li>
+                ))}
+              </ol>
+            </div>
+          ))}
         </>
       ) : (
         <>
