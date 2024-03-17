@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Loading from "../components/Loading";
+import logo from '../assets/recycle-bin.png';
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 const Home = () => {
@@ -175,8 +176,26 @@ const Home = () => {
       <div>
         {isLoading && <Loading />}
         { !isAuthenticated ? (
-          <div>
-            Not authed bro
+          <div className="d-flex flex-column align-items-center">
+            <div className="d-flex flex-column align-items-center vh-100 justify-content-center">
+              <div className="d-flex flex-column align-items-center">
+                <img src={logo} alt="Logo" className="mb-4" style={{maxWidth: "50%", height: "auto"}}/>
+              </div>
+              <div>
+                <h1 className="display-4">Save The Trash</h1>
+              </div>
+              <div>
+                <p className="lead">Don't trash the trash, Recycle and Reuse!</p>
+              </div>
+            </div>
+            <div className="d-flex flex-column align-items-center vh-100 justify-content-center">
+              <div>
+                <p className="lead">Why Recycling is Important</p>
+              </div>
+              <div className="d-flex flex-column align-items-center">
+                <iframe style={{width: "50vw", height: "50vh"}} src="https://www.youtube.com/embed/MFc4k5UOW1Q" title="Recycling Perks Graphic Animation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              </div>
+            </div>
           </div>
         ) : (
           <div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="bg-light p-3 text-center">
+  <footer className="bg-light p-2 text-center">
     <p>
       For the environment ❤️
     </p>
