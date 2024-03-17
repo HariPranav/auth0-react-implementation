@@ -109,43 +109,8 @@ const Home = () => {
     setAnalyzeData(null);
     setImage(null);
   };
-
-  const uploadedView = (
-    <>
-      {image && (
-        <div>
-          Selected Image:
-          <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
-        </div>
-      )}
-      <button onClick={handleAnalyze}>Analyze</button>
-      <button onClick={handleReset}>Upload Another</button>
-      {analyzeData && (
-        <div>
-          Products that can be made:
-        </div>
-      )}
-      {analyzeData && analyzeData.products.map((product, index) => (
-        <div key={index}>
-          <h2>{product.name}</h2>
-          <h3>Required Items:</h3>
-          <ul>
-            {product.items.map((item, itemIndex) => (
-              <li key={itemIndex}>{item}</li>
-            ))}
-          </ul>
-          <h3>Steps:</h3>
-          <ol>
-            {product.steps.map((step, stepIndex) => (
-              <li key={stepIndex}>{step}</li>
-            ))}
-          </ol>
-        </div>
-      ))}
-    </>
-  );
   
-  const notUploadedView = (
+  const mainView = (
     <div className="d-flex flex-column align-items-center mt-5">
       <div>
         <h2 className="display-6">Lets Recycle and Reuse!</h2>
@@ -166,18 +131,54 @@ const Home = () => {
           )}
         </div>
         <div className="m-2 d-flex flex-column align-items-center justify-content-center">
-          <div className="m-2">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="d-block mx-auto"
-            />
-          </div>
-          <div className="m-2 w-100">
-            <button className="btn btn-primary w-100 shadow-sm" onClick={handleUpload}>Upload</button>
-          </div>
+            {
+              !isUploaded ?
+              (
+                <>
+                  <div className="m-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="d-block mx-auto"
+                    />
+                  </div>
+                  <div className="m-2 w-100">
+                    <button className="btn btn-primary w-100 shadow-sm" onClick={handleUpload} disabled={isLoading}>Upload</button>
+                  </div>
+                </>
+              ): (
+                <>
+                  <button onClick={handleAnalyze}>Analyze</button>
+                  <button onClick={handleReset}>Upload Another</button>
+                </>
+              )
+            }
         </div>
+      </div>
+      <div>
+        {analyzeData && (
+          <div>
+            Products that can be made:
+          </div>
+        )}
+        {analyzeData && analyzeData.products.map((product, index) => (
+        <div key={index}>
+          <h2>{product.name}</h2>
+          <h3>Required Items:</h3>
+          <ul>
+            {product.items.map((item, itemIndex) => (
+              <li key={itemIndex}>{item}</li>
+            ))}
+          </ul>
+          <h3>Steps:</h3>
+          <ol>
+            {product.steps.map((step, stepIndex) => (
+              <li key={stepIndex}>{step}</li>
+            ))}
+          </ol>
+        </div>
+      ))}
       </div>
     </div>
   );
@@ -210,7 +211,7 @@ const Home = () => {
           </div>
         ) : (
           <div>
-            {isUploaded ? uploadedView : notUploadedView}
+            {mainView}
           </div>
         )}
       </div>
