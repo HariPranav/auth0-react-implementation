@@ -172,7 +172,7 @@ const Home = () => {
                         <div className="spinner-border" role="status">
                           <span className="sr-only">Loading...</span>
                         </div>
-                        <div>Our algorithms are analyzing the image</div>
+                        <div>&nbsp;Our algorithms are analyzing the image</div>
                       </div>
                     ) : (
                       <div>&nbsp;</div>
@@ -183,29 +183,37 @@ const Home = () => {
             }
         </div>
       </div>
-      <div>
+      <div className="m-2 d-flex flex-column align-items-center justify-content-center">
         {analyzeData && (
-          <div>
+          <div className="lead">
             Products that can be made:
           </div>
         )}
-        {analyzeData && analyzeData.products.map((product, index) => (
-        <div key={index}>
-          <h2>{product.name}</h2>
-          <h3>Required Items:</h3>
-          <ul>
-            {product.items.map((item, itemIndex) => (
-              <li key={itemIndex}>{item}</li>
-            ))}
-          </ul>
-          <h3>Steps:</h3>
-          <ol>
-            {product.steps.map((step, stepIndex) => (
-              <li key={stepIndex}>{step}</li>
-            ))}
-          </ol>
+        <div className="d-flex justify-content-center flex-wrap gap-3">
+          {analyzeData && analyzeData.products.map((product, index) => (
+            <div className="card" style={{width: "30rem", margin: "10px"}} key={index}>
+              <div className="card-body">
+                <h5 className="card-title">{product.name}</h5>
+                <h6 className="card-subtitle mb-2 text-muted">Required Items</h6>
+                <p className="card-text">
+                  <ul>
+                    {product.items.map((item, itemIndex) => (
+                      <li key={itemIndex}>{item}</li>
+                    ))}
+                  </ul>
+                </p>
+                <h6 className="card-subtitle mb-2 text-muted">Steps</h6>
+                <p className="card-text">
+                  <ol>
+                    {product.steps.map((step, stepIndex) => (
+                      <li key={stepIndex}>{step}</li>
+                    ))}
+                  </ol>
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
       </div>
     </div>
   );
