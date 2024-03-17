@@ -146,29 +146,40 @@ const Home = () => {
   );
   
   const notUploadedView = (
-    <>
-      <h1 className="mb-4">Save The Trash</h1>
+    <div className="d-flex flex-column align-items-center mt-5">
+      <div>
+        <h2 className="display-6">Lets Recycle and Reuse!</h2>
+      </div>
       <p className="lead">
         Share a picture of your trash and we can help you find ways to reuse it!
       </p>
-      <div>
-      {image && (
-        <div>
-          Selected Image:
-          <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
+      <div className="d-flex justify-content-between">
+        <div style={{ height: "50vh", width: "400px", border: "5px dashed"}} className="m-2 d-flex align-items-center justify-content-center">
+          {image ? (
+            <div style={{ height: "100%" }}>
+              <img src={image} alt="Uploaded" style={{ maxWidth: "100%", maxHeight: "100%"}} />
+            </div>
+          ) : (
+            <div>
+              No Image Selected
+            </div>
+          )}
         </div>
-      )}
+        <div className="m-2 d-flex flex-column align-items-center justify-content-center">
+          <div className="m-2">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="d-block mx-auto"
+            />
+          </div>
+          <div className="m-2 w-100">
+            <button className="btn btn-primary w-100 shadow-sm" onClick={handleUpload}>Upload</button>
+          </div>
+        </div>
       </div>
-      <div>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{ display: "block", margin: "0 auto" }}
-        />
-        <button onClick={handleUpload}>Upload</button>
-      </div>
-    </>
+    </div>
   );
   
   return (
