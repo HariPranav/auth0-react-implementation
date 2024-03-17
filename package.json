@@ -12,7 +12,7 @@
     "server:dev": "nodemon server.js",
     "api-server": "node api-server.js",
     "api-server:dev": "nodemon api-server.js",
-    "dev": "npm-run-all --parallel spa api-server:dev",
+    "dev": "HOST=0.0.0.0 npm-run-all --parallel spa api-server:dev",
     "prod": "npm-run-all --parallel server api-server"
   },
   "dependencies": {
