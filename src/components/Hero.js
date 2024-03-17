@@ -12,6 +12,9 @@ const Hero = () => {
   const [file, setFile] = useState(null); // New state variable for file
   const { getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useState(null);
+  const [uploadResponse, setUploadResponse] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [analyzeData, setAnalyzeData] = useState(null);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -28,10 +31,6 @@ const Hero = () => {
   
     reader.onload = async () => {
       try {
-        // Extracting latitude and longitude using exifr library
-        const exifData = await exifr.gps(file);
-        setLatitude(exifData.latitude);
-        setLongitude(exifData.longitude);
         setImage(reader.result);
       } catch (error) {
         console.error("Error reading EXIF data:", error);
@@ -65,6 +64,10 @@ const Hero = () => {
         if (!response.ok) {
           throw new Error("Error uploading file");
         }
+
+        const responseData = await response.json();
+        setUploadResponse(responseData);
+        setIsUploaded(true);
       } catch (error) {
         console.error("Upload failed:", error);
       } finally {
@@ -73,33 +76,83 @@ const Hero = () => {
     }
   };
 
+  const handleAnalyze = async () => {
+    if (uploadResponse) {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/analyze`, {
+          method: "POST",
+          body: JSON.stringify({ data: uploadResponse.data }),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Error analyzing file");
+        }
+
+        const analyzeData = await response.json();
+        setAnalyzeData(analyzeData); // Log the analyze data or do something with it
+      } catch (error) {
+        console.error("Analyze failed:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleReset = () => {
+    setIsUploaded(false);
+    setUploadResponse(null);
+    setAnalyzeData(null);
+  };
+
   return (
     <div className="text-center hero my-5">
-      <h1 className="mb-4">Save The Trash</h1>
-      <p className="lead">
-        Share a picture of your trash and we can help you find ways to reuse it!
-      </p>
-      <div>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{ display: "block", margin: "0 auto" }}
-        />
-        <button onClick={handleUpload}>Upload</button>
-        {isLoading ? <Loading /> : image && (
+      {isLoading && <Loading />}
+      {isUploaded ? (
+        <>
+          {image && (
+            <div>
+              Selected Image:
+              <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
+            </div>
+          )}
+          <button onClick={handleAnalyze}>Analyze</button>
+          <button onClick={handleReset}>Upload Another</button>
+          {analyzeData && (
+            <div>
+              <pre>{JSON.stringify(analyzeData, null, 2)}</pre>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <h1 className="mb-4">Save The Trash</h1>
+          <p className="lead">
+            Share a picture of your trash and we can help you find ways to reuse it!
+          </p>
           <div>
-            <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
-            {(latitude && longitude) ? (
-              <p>
-                Latitude: {latitude}, Longitude: {longitude}
-              </p>
-            ) : (
-              <p>No latitude and longitude found</p>
-            )}
+          {image && (
+            <div>
+              Selected Image:
+              <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
+            </div>
+          )}
           </div>
-        )}
-      </div>
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: "block", margin: "0 auto" }}
+            />
+            <button onClick={handleUpload}>Upload</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
