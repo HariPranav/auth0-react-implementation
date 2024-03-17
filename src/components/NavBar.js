@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import logo from '../assets/recycle-bin.png';
 import {
   Collapse,
   Container,
@@ -42,7 +42,8 @@ const NavBar = () => {
       <Navbar color="light" light expand="md" container={false}>
         <Container>
           <NavbarBrand>
-            Save The Trash
+            <img src={logo} style={{maxWidth: '8%'}}/>
+            &nbsp;Save The Trash
           </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
@@ -52,23 +53,10 @@ const NavBar = () => {
                   tag={RouterNavLink}
                   to="/"
                   exact
-                  activeClassName="router-link-exact-active"
                 >
-                  Home
+                  &nbsp;
                 </NavLink>
               </NavItem>
-              {isAuthenticated && (
-                <NavItem>
-                  <NavLink
-                    tag={RouterNavLink}
-                    to="/external-api"
-                    exact
-                    activeClassName="router-link-exact-active"
-                  >
-                    External API
-                  </NavLink>
-                </NavItem>
-              )}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (
