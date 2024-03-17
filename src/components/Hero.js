@@ -13,10 +13,10 @@ const Hero = () => {
 
     reader.onload = async () => {
       try {
-        const exifData = await exifr.parse(file);
-        const { latitude, longitude } = exifData.gps || {};
-        setLatitude(latitude);
-        setLongitude(longitude);
+        // Extracting latitude and longitude using exifr library
+        const exifData = await exifr.gps(file);
+        setLatitude(exifData.latitude);
+        setLongitude(exifData.longitude);
         setImage(reader.result);
       } catch (error) {
         console.error("Error reading EXIF data:", error);
