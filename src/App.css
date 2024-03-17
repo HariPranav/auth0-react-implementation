@@ -33,3 +33,7 @@
 .result-block-container .result-block {
   opacity: 1;
 }
+
+body {
+  background-color: #DCE6F2;
+}
