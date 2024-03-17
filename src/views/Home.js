@@ -108,68 +108,80 @@ const Home = () => {
     setAnalyzeData(null);
     setImage(null);
   };
+
+  const uploadedView = (
+    <>
+      {image && (
+        <div>
+          Selected Image:
+          <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
+        </div>
+      )}
+      <button onClick={handleAnalyze}>Analyze</button>
+      <button onClick={handleReset}>Upload Another</button>
+      {analyzeData && (
+        <div>
+          Products that can be made:
+        </div>
+      )}
+      {analyzeData && analyzeData.products.map((product, index) => (
+        <div key={index}>
+          <h2>{product.name}</h2>
+          <h3>Required Items:</h3>
+          <ul>
+            {product.items.map((item, itemIndex) => (
+              <li key={itemIndex}>{item}</li>
+            ))}
+          </ul>
+          <h3>Steps:</h3>
+          <ol>
+            {product.steps.map((step, stepIndex) => (
+              <li key={stepIndex}>{step}</li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </>
+  );
+  
+  const notUploadedView = (
+    <>
+      <h1 className="mb-4">Save The Trash</h1>
+      <p className="lead">
+        Share a picture of your trash and we can help you find ways to reuse it!
+      </p>
+      <div>
+      {image && (
+        <div>
+          Selected Image:
+          <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
+        </div>
+      )}
+      </div>
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ display: "block", margin: "0 auto" }}
+        />
+        <button onClick={handleUpload}>Upload</button>
+      </div>
+    </>
+  );
   
   return (
     <Fragment>
       <div>
         {isLoading && <Loading />}
-        {isUploaded ? (
-          <>
-            {image && (
-              <div>
-                Selected Image:
-                <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
-              </div>
-            )}
-            <button onClick={handleAnalyze}>Analyze</button>
-            <button onClick={handleReset}>Upload Another</button>
-            {analyzeData && (
-              <div>
-                Products that can be made:
-              </div>
-            )}
-            {analyzeData && analyzeData.products.map((product, index) => (
-              <div key={index}>
-                <h2>{product.name}</h2>
-                <h3>Required Items:</h3>
-                <ul>
-                  {product.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>{item}</li>
-                  ))}
-                </ul>
-                <h3>Steps:</h3>
-                <ol>
-                  {product.steps.map((step, stepIndex) => (
-                    <li key={stepIndex}>{step}</li>
-                  ))}
-                </ol>
-              </div>
-            ))}
-          </>
+        { !isAuthenticated ? (
+          <div>
+            Not authed bro
+          </div>
         ) : (
-          <>
-            <h1 className="mb-4">Save The Trash</h1>
-            <p className="lead">
-              Share a picture of your trash and we can help you find ways to reuse it!
-            </p>
-            <div>
-            {image && (
-              <div>
-                Selected Image:
-                <img src={image} alt="Uploaded" style={{ maxWidth: "100%" }} />
-              </div>
-            )}
-            </div>
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "block", margin: "0 auto" }}
-              />
-              <button onClick={handleUpload}>Upload</button>
-            </div>
-          </>
+          <div>
+            {isUploaded ? uploadedView : notUploadedView}
+          </div>
         )}
       </div>
     </Fragment>
