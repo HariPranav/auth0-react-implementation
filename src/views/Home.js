@@ -130,7 +130,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="m-2 d-flex flex-column align-items-center justify-content-center">
+        <div className="m-2 d-flex flex-column align-items-center justify-content-center" style={{width: "350px"}}>
             {
               !isUploaded ?
               (
@@ -144,13 +144,40 @@ const Home = () => {
                     />
                   </div>
                   <div className="m-2 w-100">
-                    <button className="btn btn-primary w-100 shadow-sm" onClick={handleUpload} disabled={isLoading}>Upload</button>
+                    <button className="btn btn-primary w-100 shadow-sm" onClick={handleUpload} disabled={isLoading} onMouseOver={() => this.classList.add('btn-hover')} onMouseOut={() => this.classList.remove('btn-hover')}>Upload</button>
+                  </div>
+                  <div className="m-2 w-100">
+                    {isLoading ? (
+                        <div className="d-flex justify-content-center">
+                          <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>&nbsp;</div>
+                    )}
                   </div>
                 </>
               ): (
                 <>
-                  <button onClick={handleAnalyze}>Analyze</button>
-                  <button onClick={handleReset}>Upload Another</button>
+                <div className="m-2 w-100">
+                  <button onClick={handleReset} className="btn btn-light w-100 shadow-sm" disabled={isLoading}>Upload Another</button>
+                </div>
+                <div className="m-2 w-100">
+                  <button onMouseOver={() => this.classList.add('btn-hover')} onMouseOut={() => this.classList.remove('btn-hover')} onClick={handleAnalyze} className="btn btn-primary w-100 shadow-sm" disabled={isLoading}>Analyze</button>
+                </div>
+                <div className="m-2 w-100">
+                    {isLoading ? (
+                      <div className="d-flex justify-content-center">
+                        <div className="spinner-border" role="status">
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                        <div>Our algorithms are analyzing the image</div>
+                      </div>
+                    ) : (
+                      <div>&nbsp;</div>
+                    )}
+                  </div>
                 </>
               )
             }
@@ -186,7 +213,6 @@ const Home = () => {
   return (
     <Fragment>
       <div>
-        {isLoading && <Loading />}
         { !isAuthenticated ? (
           <div className="d-flex flex-column align-items-center">
             <div className="d-flex flex-column align-items-center vh-100 justify-content-center">
